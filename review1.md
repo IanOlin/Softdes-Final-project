@@ -1,4 +1,5 @@
 ## Agenda
+(timing is flexible)
 - present agenda
 - present background
 - get design feedback on idea
