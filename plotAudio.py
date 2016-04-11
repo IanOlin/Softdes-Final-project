@@ -4,7 +4,7 @@ from scipy import fft, arange, ifft
 from numpy import sin, linspace, pi
 from scipy.io.wavfile import read,write
 
-def plotSpectru(y,Fs):
+def plotSpectrum(y,Fs):
     n = len(y) # lungime semnal
     k = arange(n)
     T = n/Fs
@@ -30,5 +30,5 @@ for time in range(6):
     timp=len(ySample)/44100.
     t=linspace(0,timp,len(ySample))
 
-    plotSpectru(ySample,Fs)
+    plotSpectrum(ySample,Fs)
     plt.show()

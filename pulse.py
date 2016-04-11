@@ -15,6 +15,7 @@ MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
 
+#This class was not written by us
 class PeakMonitor(object):
     def __init__(self, sink_name, rate):
         self.sink_name = sink_name
@@ -119,12 +120,12 @@ class analyze():
             else:
                 self._array = np.append(self._array, sample)
 
-    def getChunks(self, chunkLength=85):
+    def processChunks(self, chunkLength=85):
         self._array = np.zeros(chunkLength)
         for sample in self._monitor:
             if len(self._array) > chunkLength:
                 print(self._array)
-                self._array = np.array([])
+                self._array = np.zeros(chunkLength)
                 self._array = np.append(self._array, sample)
             else:
                 self._array = np.append(self._array, sample)
@@ -132,7 +133,7 @@ class analyze():
 def main():
     monitor = PeakMonitor(SINK_NAME, METER_RATE)
     analyzer = analyze(monitor)
-    analyzer.getChunks()
+    analyzer.processChunks()
 
 if __name__ == '__main__':
     main()
