@@ -121,11 +121,11 @@ class analyze():
                 self._array = np.append(self._array, sample)
 
     def processChunks(self, chunkLength=85):
-        self._array = np.zeros(chunkLength)
+        self._array = np.array([])
         for sample in self._monitor:
-            if len(self._array) > chunkLength:
+            if len(self._array) == chunkLength:
                 print(self._array)
-                self._array = np.zeros(chunkLength)
+                self._array = np.array([])
                 self._array = np.append(self._array, sample)
             else:
                 self._array = np.append(self._array, sample)
