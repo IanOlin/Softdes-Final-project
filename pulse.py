@@ -10,13 +10,12 @@ from pulseaudio.lib_pulseaudio import *
 
 # edit to match your sink
 SINK_NAME = 'alsa_output.pci-0000_00_1b.0.analog-stereo'
-METER_RATE = 44100/8
+METER_RATE = 44100/8 # Python can't handle a faster rate
 MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
 
 class PeakMonitor(object):
-
     def __init__(self, sink_name, rate):
         self.sink_name = sink_name
         self.rate = rate
@@ -54,7 +53,7 @@ class PeakMonitor(object):
             o = pa_context_get_sink_info_list(context, self._sink_info_cb, None)
             pa_operation_unref(o)
 
-        elif state == PA_CONTEXT_FAILED :
+        elif state == PA_CONTEXT_FAILED:
             print "Connection failed"
 
         elif state == PA_CONTEXT_TERMINATED:
@@ -101,19 +100,39 @@ class PeakMonitor(object):
             self.samples.put(data[i] - 128)
         pa_stream_drop(stream)
 
+class analyze():
+    def __init__(self, monitor):
+        self._monitor = monitor
+
+    def printOut(self):
+        for sample in self._monitor:
+            print(sample*'>')
+
+    def check(self, length = 44100):
+        self._array = np.array([])
+        for sample in self._monitor:
+            if len(self._array) == length:
+                self.outfile = open('file.dat', 'wb')
+                p.dump(self._array,self.outfile)
+                self.outfile.close()
+                self._array = np.append(self._array, sample)
+            else:
+                self._array = np.append(self._array, sample)
+
+    def getChunks(self, chunkLength=85):
+        self._array = np.zeros(chunkLength)
+        for sample in self._monitor:
+            if len(self._array) > chunkLength:
+                print(self._array)
+                self._array = np.array([])
+                self._array = np.append(self._array, sample)
+            else:
+                self._array = np.append(self._array, sample)
+
 def main():
     monitor = PeakMonitor(SINK_NAME, METER_RATE)
-    array = np.array([])
-    length = 44100
-    for sample in monitor:
-        if len(array) == length:
-            e = open('file.dat', 'wb')
-            p.dump(array,e)
-            e.close()
-            array = np.append(array, sample)
-        else:
-            array = np.append(array, sample)
-    print(array)
+    analyzer = analyze(monitor)
+    analyzer.getChunks()
 
 if __name__ == '__main__':
     main()
