@@ -121,14 +121,18 @@ class analyze():
                 self._array = np.append(self._array, sample)
 
     def processChunks(self, chunkLength=85):
-        self._array = np.array([])
+        self._index = range(0,chunkLength)
+        self._array = np.zeros(4000)
+        self._toAdd = np.array([])
         for sample in self._monitor:
-            if len(self._array) == chunkLength:
+            if len(self._toAdd) == chunkLength:
                 print(self._array)
-                self._array = np.array([])
-                self._array = np.append(self._array, sample)
+                self._array = np.delete(self._array, self._index)
+                self._array = np.append(self._array,self._toAdd)
+                self._toAdd = np.array([])
+                self._toAdd = np.append(self._toAdd, sample)
             else:
-                self._array = np.append(self._array, sample)
+                self._toAdd = np.append(self._toAdd, sample)
 
 def main():
     monitor = PeakMonitor(SINK_NAME, METER_RATE)
