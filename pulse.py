@@ -4,12 +4,14 @@ from ctypes import POINTER, c_ubyte, c_void_p, c_ulong, cast
 import pickle as p
 import time
 import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
 
 # From https://github.com/Valodim/python-pulseaudio
 from pulseaudio.lib_pulseaudio import *
 
 # edit to match your sink
-SINK_NAME = 'alsa_output.pci-0000_00_1b.0.analog-stereo'
+SINK_NAME = 'alsa_output.pci-0000_00_05.0.analog-stereo' #readme this shit yo!! pacmd list-sinks
 METER_RATE = 44100/8 # Python can't handle a faster rate
 MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
@@ -120,6 +122,8 @@ class analyze():
             else:
                 self._array = np.append(self._array, sample)
 
+
+
     def processChunks(self, chunkLength=85):
         self._index = range(0,chunkLength)
         self._array = np.zeros(4000)
@@ -127,14 +131,40 @@ class analyze():
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
                 print(self._array)
+                #timePlot(self._array)
+                freqPlot(self._array)
                 self._array = np.delete(self._array, self._index)
                 self._array = np.append(self._array,self._toAdd)
                 self._toAdd = np.array([])
                 self._toAdd = np.append(self._toAdd, sample)
             else:
                 self._toAdd = np.append(self._toAdd, sample)
+#assumings 44100 sampling rate
+def timePlot(points):
+    plt.clf()
+    timp=len(points)/44100.
+    t = np.linspace(0,timp,len(points))
+    plt.plot(t,points)
+    plt.draw()
+
+def freqPlot(points):
+    plt.clf()
+    n = len(points) # lungime semnal
+    k = sp.arange(n)
+    T = n/44100.
+    frq = k/T # two sides frequency range
+    frq = frq[range(n/2)] # one side frequency range
+
+    Y = sp.fft(points)/n # fft computing and normalization
+    Y = Y[range(n/2)]
+
+    plt.semilogx(frq,abs(Y))
+    plt.draw()
+
 
 def main():
+    plt.ion()
+    plt.figure()
     monitor = PeakMonitor(SINK_NAME, METER_RATE)
     analyzer = analyze(monitor)
     analyzer.processChunks()
