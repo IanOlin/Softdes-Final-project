@@ -1,8 +1,7 @@
-import sys
+import sys, os, time
 from Queue import Queue
 from ctypes import POINTER, c_ubyte, c_void_p, c_ulong, cast
 import pickle as p
-import time
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
@@ -10,17 +9,26 @@ import scipy as sp
 # From https://github.com/Valodim/python-pulseaudio
 from pulseaudio.lib_pulseaudio import *
 
-# edit to match your sink
-SINK_NAME = 'alsa_output.pci-0000_00_05.0.analog-stereo' #readme this shit yo!! pacmd list-sinks
 METER_RATE = 44100/8 # Python can't handle a faster rate
 MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
 
-#This class was not written by us
+
 class PeakMonitor(object):
-    def __init__(self, sink_name, rate):
-        self.sink_name = sink_name
+    '''The following functions of this class were not written by us:
+        - __init__()
+        - __iter__()
+        - context_notify_cb()
+        - sink_info_cb()
+        - stream_read_cb()
+
+        We wrote:
+        - get_sink_name()
+    '''
+    def __init__(self, rate):
+        self.get_sink_name()
+        print (self.sink_name)
         self.rate = rate
 
         # Wrap callback methods in appropriate ctypefunc instances so
@@ -90,7 +98,7 @@ class PeakMonitor(object):
             pa_stream_connect_record(pa_stream,
                                      sink_info.monitor_source_name,
                                      None,
-                                     PA_STREAM_PEAK_DETECT)#NOFLAGS)
+                                     PA_STREAM_PEAK_DETECT)
 
     def stream_read_cb(self, stream, length, index_incr):
         data = c_void_p()
@@ -102,6 +110,16 @@ class PeakMonitor(object):
             # it doesn't make sense to return signed peaks.
             self.samples.put(data[i] - 128)
         pa_stream_drop(stream)
+
+    def get_sink_name(self):
+        '''This function was written by us to get the name of the audio sink, as it can change from computer to computer'''
+        unparsed = os.popen("pacmd list-sinks").read()
+        intermediate = unparsed.replace('>', '<')
+        s = intermediate.split('<')
+        for i in s:
+            if 'analog-stereo' in i and 'alsa_output' in i:
+                self.sink_name = i
+        
 
 class analyze():
     def __init__(self, monitor):
@@ -122,8 +140,6 @@ class analyze():
             else:
                 self._array = np.append(self._array, sample)
 
-
-
     def processChunks(self, chunkLength=85):
         self._index = range(0,chunkLength)
         self._array = np.zeros(4000)
@@ -139,6 +155,7 @@ class analyze():
                 self._toAdd = np.append(self._toAdd, sample)
             else:
                 self._toAdd = np.append(self._toAdd, sample)
+
 #assumings 44100 sampling rate
 def timePlot(points):
     plt.clf()
@@ -163,9 +180,9 @@ def freqPlot(points):
 
 
 def main():
-    plt.ion()
-    plt.figure()
-    monitor = PeakMonitor(SINK_NAME, METER_RATE)
+    #plt.ion()
+    #plt.figure()
+    monitor = PeakMonitor(METER_RATE)
     analyzer = analyze(monitor)
     analyzer.printOut()
 
