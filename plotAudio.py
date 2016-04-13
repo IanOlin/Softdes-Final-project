@@ -17,6 +17,7 @@ def plotSpectrum(y,Fs):
     plt.semilogx(frq,abs(Y),'r') # plotting the spectrum
     plt.xlabel('Freq (Hz)')
     plt.ylabel('|Y(freq)|')
+#    plt.canvas.blit()
 
 Fs = 44100.0;  # sampling rate
 
@@ -29,6 +30,5 @@ for time in range(6):
     lungime=len(ySample)
     timp=len(ySample)/44100.
     t=linspace(0,timp,len(ySample))
-
-    plotSpectrum(ySample,Fs)
     plt.show()
+    plotSpectrum(ySample,Fs)

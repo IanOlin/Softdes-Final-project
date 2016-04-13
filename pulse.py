@@ -137,7 +137,7 @@ class analyze():
 def main():
     monitor = PeakMonitor(SINK_NAME, METER_RATE)
     analyzer = analyze(monitor)
-    analyzer.processChunks()
+    analyzer.printOut()
 
 if __name__ == '__main__':
     main()
