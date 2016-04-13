@@ -167,15 +167,14 @@ def timePlot(points):
 def freqPlot(points):
     plt.clf()
     n = len(points) # lungime semnal
-    k = sp.arange(n)
-    T = n/44100.
-    frq = k/T # two sides frequency range
-    frq = frq[range(n/2)] # one side frequency range
+    # k = sp.arange(n)
+    # T = n/44100.
+    # frq = k/T # two sides frequency range
+    # frq = frq[range(n/2)] # one side frequency range
 
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
 
-    line.set_xdata(frq)
     line.set_ydata(abs(Y))
     ax.draw_artist(ax.patch)
     ax.draw_artist(line)
@@ -196,5 +195,6 @@ if __name__ == '__main__':
     firstTime = True
     fig, ax = plt.subplots()
     line, = ax.semilogx(np.random.randn(2000))
+    line.set_xdata(np.linspace(0,20000,2000))
     plt.show(block=False)
     main()
