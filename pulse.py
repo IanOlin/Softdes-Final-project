@@ -144,11 +144,14 @@ class analyze():
         self._index = range(0,chunkLength)
         self._array = np.zeros(4000)
         self._toAdd = np.array([])
+        fig, ax = plt.subplots()
+        line, = ax.plot(np.random.randn(100))
+        plt.show(block=False)
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
-                print(self._array)
-                #timePlot(self._array)
-                freqPlot(self._array)
+                #print(self._array)
+                timePlot(self._array, fig, ax, line)
+                #freqPlot(self._array, fig, ax, line)
                 self._array = np.delete(self._array, self._index)
                 self._array = np.append(self._array,self._toAdd)
                 self._toAdd = np.array([])
@@ -157,14 +160,17 @@ class analyze():
                 self._toAdd = np.append(self._toAdd, sample)
 
 #assumings 44100 sampling rate
-def timePlot(points):
-    plt.clf()
+def timePlot(points, fig, ax, line):
     timp=len(points)/44100.
     t = np.linspace(0,timp,len(points))
-    plt.plot(t,points)
-    plt.draw()
+    line.set_ydata(np.random.randn(100))
+    ax.draw_artist(ax.patch)
+    ax.draw_artist(line)
+    fig.canvas.blit()
 
 def freqPlot(points):
+    plt.ion()
+    plt.figure()
     plt.clf()
     n = len(points) # lungime semnal
     k = sp.arange(n)
@@ -180,11 +186,9 @@ def freqPlot(points):
 
 
 def main():
-    #plt.ion()
-    #plt.figure()
     monitor = PeakMonitor(METER_RATE)
     analyzer = analyze(monitor)
-    analyzer.printOut()
+    analyzer.processChunks()
 
 if __name__ == '__main__':
     main()
