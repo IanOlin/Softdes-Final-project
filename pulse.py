@@ -9,7 +9,7 @@ import scipy as sp
 # From https://github.com/Valodim/python-pulseaudio
 from pulseaudio.lib_pulseaudio import *
 
-METER_RATE = 44100/8 # Python can't handle a faster rate
+METER_RATE = 44100/4 # Python can't handle a faster rate
 MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
@@ -119,7 +119,7 @@ class PeakMonitor(object):
         for i in s:
             if 'analog-stereo' in i and 'alsa_output' in i:
                 self.sink_name = i
-        
+
 
 class analyze():
     def __init__(self, monitor):
@@ -140,13 +140,12 @@ class analyze():
             else:
                 self._array = np.append(self._array, sample)
 
-    def processChunks(self, chunkLength=85):
+    def processChunks(self, chunkLength=100):
         self._index = range(0,chunkLength)
         self._array = np.zeros(4000)
         self._toAdd = np.array([])
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
-                #print(self._array)
                 #timePlot(self._array)
                 freqPlot(self._array)
                 self._array = np.delete(self._array, self._index)
@@ -166,16 +165,9 @@ def timePlot(points):
 
 def freqPlot(points):
     plt.clf()
-    n = len(points) # lungime semnal
-    k = sp.arange(n)
-    T = n/44100.
-    frq = k/T # two sides frequency range
-    frq = frq[range(n/2)] # one side frequency range
-
+    n = len(points)
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
-
-    line.set_xdata(frq)
     line.set_ydata(abs(Y))
     ax.draw_artist(ax.patch)
     ax.draw_artist(line)
@@ -196,5 +188,6 @@ if __name__ == '__main__':
     firstTime = True
     fig, ax = plt.subplots()
     line, = ax.semilogx(np.random.randn(2000))
+    line.set_xdata(np.linspace(0,20000,2000))
     plt.show(block=False)
     main()
