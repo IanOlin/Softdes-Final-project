@@ -175,16 +175,26 @@ def freqPlot(points):
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
 
-    plt.semilogx(frq,abs(Y))
-    plt.draw()
+    line.set_xdata(frq)
+    line.set_ydata(abs(Y))
+    ax.draw_artist(ax.patch)
+    ax.draw_artist(line)
+    fig.canvas.blit()
 
-
-def main():
-    #plt.ion()
-    #plt.figure()
+def main_print():
     monitor = PeakMonitor(METER_RATE)
     analyzer = analyze(monitor)
     analyzer.printOut()
 
+def main():
+
+    monitor = PeakMonitor(METER_RATE)
+    analyzer = analyze(monitor)
+    analyzer.processChunks()
+
 if __name__ == '__main__':
+    firstTime = True
+    fig, ax = plt.subplots()
+    line, = ax.semilogx(np.random.randn(2000))
+    plt.show(block=False)
     main()
