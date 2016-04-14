@@ -135,19 +135,19 @@ class analyze():
             print(sample*'>')
 
 
-'''
-import pickle as p
-    def check(self, length = 44100):
-        self._array = np.array([])
-        for sample in self._monitor:
-            if len(self._array) == length:
-                self.outfile = open('file.dat', 'wb')
-                p.dump(self._array,self.outfile)
-                self.outfile.close()
-                self._array = np.append(self._array, sample)
-            else:
-                self._array = np.append(self._array, sample)
-'''
+    '''
+    import pickle as p
+        def check(self, length = 44100):
+            self._array = np.array([])
+            for sample in self._monitor:
+                if len(self._array) == length:
+                    self.outfile = open('file.dat', 'wb')
+                    p.dump(self._array,self.outfile)
+                    self.outfile.close()
+                    self._array = np.append(self._array, sample)
+                else:
+                    self._array = np.append(self._array, sample)
+    '''
 
 
     def processChunks(self, chunkLength=100):
