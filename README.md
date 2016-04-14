@@ -1,7 +1,16 @@
-# SPECTROGRAM TEAM 2
-We plan to implement the FFT by hand along with a couple of other music analysis libraries, as well as build it to handle real time analysis based on system out sounds.
+# Python Spectrogram
 
-##Dependencies
+##Description 
+We plan to implement the FFT by hand along with a couple of other music analysis libraries. It currently plots amplitude vs frequency based on system audio output.
+
+##Authors
+Maintained by Ian and Carl
+Python-pulseaudio comes from https://github.com/valodim/python-pulseaudio
+PeakMonitor comes from http://freshfoo.com/blog/pulseaudio_monitoring
+
+##Getting started
+Clone this directory
+
 ```
 $ sudo apt-get install python-numpy python-scipy
 ```
@@ -18,6 +27,5 @@ $ ./install.sh
 $ python2 pulse.py
 ```
 
-Maintained by Ian and Carl
-
+##License
 Standard Github License, which isn't really a license at all
