@@ -1,7 +1,6 @@
 import sys, os, time
 from Queue import Queue
 from ctypes import POINTER, c_ubyte, c_void_p, c_ulong, cast
-import pickle as p
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
@@ -25,6 +24,11 @@ class PeakMonitor(object):
 
         We wrote:
         - get_sink_name()
+        - timePlot()
+        - freqPlot()
+        - printOut()
+        - check()
+        - processChunks()
     '''
     def __init__(self, rate):
         self.get_sink_name()
@@ -126,9 +130,13 @@ class analyze():
         self._monitor = monitor
 
     def printOut(self):
+        '''Prints to terminal a text representation of the signal in the time domain'''
         for sample in self._monitor:
             print(sample*'>')
 
+
+'''
+import pickle as p
     def check(self, length = 44100):
         self._array = np.array([])
         for sample in self._monitor:
@@ -139,8 +147,12 @@ class analyze():
                 self._array = np.append(self._array, sample)
             else:
                 self._array = np.append(self._array, sample)
+'''
+
 
     def processChunks(self, chunkLength=100):
+        '''Builds a numpyArray of audio peaks in a generator
+        calls a plotting function to visualize the data'''
         self._index = range(0,chunkLength)
         self._array = np.zeros(4000)
         self._toAdd = np.array([])
@@ -155,8 +167,10 @@ class analyze():
             else:
                 self._toAdd = np.append(self._toAdd, sample)
 
-#assumings 44100 sampling rate
+
 def timePlot(points):
+    '''Plots the audio signal in the time domain
+    assumes input signal is sampled at 44100 hz'''
     plt.clf()
     timp=len(points)/44100.
     t = np.linspace(0,timp,len(points))
@@ -164,14 +178,16 @@ def timePlot(points):
     plt.draw()
 
 def freqPlot(points):
-    plt.clf()
+    '''Plots the audio signal in the frequency domain
+    data is from fast fourier transform of the signal in the time domain'''
+    plt.clf()#used to set axis correctly
     n = len(points)
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
-    line.set_ydata(abs(Y))
-    ax.draw_artist(ax.patch)
-    ax.draw_artist(line)
-    fig.canvas.blit()
+    line.set_ydata(abs(Y)) #sets the line to the current data
+    ax.draw_artist(ax.patch) #updates the figure
+    ax.draw_artist(line) #puts the line on the figure
+    fig.canvas.blit() #updates the figure to display the current figure
 
 def main_print():
     monitor = PeakMonitor(METER_RATE)
@@ -179,15 +195,13 @@ def main_print():
     analyzer.printOut()
 
 def main():
-
     monitor = PeakMonitor(METER_RATE)
     analyzer = analyze(monitor)
     analyzer.processChunks()
 
 if __name__ == '__main__':
-    firstTime = True
-    fig, ax = plt.subplots()
-    line, = ax.semilogx(np.random.randn(2000))
-    line.set_xdata(np.linspace(0,20000,2000))
-    plt.show(block=False)
+    fig, ax = plt.subplots() #initialize the figure
+    line, = ax.semilogx(np.random.randn(2000)) #initialize the line with the corrent number of points
+    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
+    plt.show(block=False) #display our plot
     main()
