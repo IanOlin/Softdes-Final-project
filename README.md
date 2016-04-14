@@ -5,7 +5,9 @@ We plan to implement the FFT by hand along with a couple of other music analysis
 
 ##Authors
 Maintained by Ian and Carl
+
 Python-pulseaudio comes from https://github.com/valodim/python-pulseaudio
+
 PeakMonitor comes from http://freshfoo.com/blog/pulseaudio_monitoring
 
 ##Getting started
