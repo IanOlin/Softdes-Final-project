@@ -9,7 +9,7 @@ import scipy as sp
 # From https://github.com/Valodim/python-pulseaudio
 from pulseaudio.lib_pulseaudio import *
 
-METER_RATE = 44100/4 # Python can't handle a faster rate
+METER_RATE = 44100/8 # Python can't handle a faster rate
 MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
