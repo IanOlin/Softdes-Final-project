@@ -178,7 +178,7 @@ def timePlot(points):
 def freqPlot(points):
     '''Plots the audio signal in the frequency domain
     data is from fast fourier transform of the signal in the time domain'''
-    plt.clf()#used to set axis correctly
+    # plt.clf()#used to set axis correctly
     n = len(points)
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
