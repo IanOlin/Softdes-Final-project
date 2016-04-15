@@ -180,10 +180,11 @@ def timePlot(points):
 def freqPlot(points):
     '''Plots the audio signal in the frequency domain
     data is from fast fourier transform of the signal in the time domain'''
-    plt.clf()#used to set axis correctly
+    # plt.clf()#used to set axis correctly
     n = len(points)
     Y = sp.fft(points)/n # fft computing and normalization
-    Y = Y[range(n/2)]
+    #Y = Y[range(n/2)]
+    Y = Y[:n/2]
     line.set_ydata(abs(Y)) #sets the line to the current data
     ax.draw_artist(ax.patch) #updates the figure
     ax.draw_artist(line) #puts the line on the figure
@@ -202,6 +203,7 @@ def main():
 if __name__ == '__main__':
     fig, ax = plt.subplots() #initialize the figure
     line, = ax.semilogx(np.random.randn(2000)) #initialize the line with the corrent number of points
-    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
     plt.show(block=False) #display our plot
+    plt.clf()
+    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
     main()
