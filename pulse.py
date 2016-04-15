@@ -13,7 +13,6 @@ MAX_SAMPLE_VALUE = 127
 DISPLAY_SCALE = 2
 MAX_SPACES = MAX_SAMPLE_VALUE >> DISPLAY_SCALE
 
-
 class PeakMonitor(object):
     '''The following functions of this class were not written by us:
         - __init__()
@@ -29,6 +28,9 @@ class PeakMonitor(object):
         - printOut()
         - check()
         - processChunks()
+
+
+        Add information on what this black box does
     '''
     def __init__(self, rate):
         self.get_sink_name()
@@ -126,6 +128,7 @@ class PeakMonitor(object):
 
 
 class analyze():
+    '''Insert comments here'''
     def __init__(self, monitor):
         self._monitor = monitor
 
@@ -133,22 +136,6 @@ class analyze():
         '''Prints to terminal a text representation of the signal in the time domain'''
         for sample in self._monitor:
             print(sample*'>')
-
-
-'''
-import pickle as p
-    def check(self, length = 44100):
-        self._array = np.array([])
-        for sample in self._monitor:
-            if len(self._array) == length:
-                self.outfile = open('file.dat', 'wb')
-                p.dump(self._array,self.outfile)
-                self.outfile.close()
-                self._array = np.append(self._array, sample)
-            else:
-                self._array = np.append(self._array, sample)
-'''
-
 
     def processChunks(self, chunkLength=100):
         '''Builds a numpyArray of audio peaks in a generator
@@ -159,9 +146,9 @@ import pickle as p
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
                 #timePlot(self._array)
-                freqPlot(self._array)
                 self._array = np.delete(self._array, self._index)
                 self._array = np.append(self._array,self._toAdd)
+                freqPlot(self._array)
                 self._toAdd = np.array([])
                 self._toAdd = np.append(self._toAdd, sample)
             else:
