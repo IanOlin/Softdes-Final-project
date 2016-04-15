@@ -137,33 +137,44 @@ class analyze():
         for sample in self._monitor:
             print(sample*'>')
 
+    import pickle as p
+    def check(self, length = 44100):
+        self._array = np.array([])
+        for sample in self._monitor:
+            if len(self._array) == length:
+                self.outfile = open('file.dat', 'wb')
+                p.dump(self._array,self.outfile)
+                self.outfile.close()
+                self._array = np.append(self._array, sample)
+            else:
+                self._array = np.append(self._array, sample)
+
     def processChunks(self, chunkLength=100):
         '''Builds a numpyArray of audio peaks in a generator
         calls a plotting function to visualize the data'''
         self._index = range(0,chunkLength)
-        self._array = np.zeros(4000)
-        self._toAdd = np.array([])
+        self._array = np.zeros(2000)
+        self._toAdd = []
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
-                #timePlot(self._array)
+                timePlot(self._array)
                 self._array = np.delete(self._array, self._index)
                 self._array = np.append(self._array,self._toAdd)
-                freqPlot(self._array)
-                self._toAdd = np.array([])
-                self._toAdd = np.append(self._toAdd, sample)
+                #freqPlot(self._array)
+                self._toAdd = []
+                self._toAdd.append(sample)
             else:
-                self._toAdd = np.append(self._toAdd, sample)
+                self._toAdd.append(sample)
 
 
 def timePlot(points):
     '''Plots the audio signal in the time domain
     assumes input signal is sampled at 44100 hz'''
-    plt.clf()
-    timp=len(points)/44100.
-    t = np.linspace(0,timp,len(points))
-    plt.plot(t,points)
-    plt.draw()
-
+    line.set_ydata(points)
+    ax.draw_artist(ax.patch)
+    ax.draw_artist(line)
+    fig.canvas.blit()
+    
 def freqPlot(points):
     '''Plots the audio signal in the frequency domain
     data is from fast fourier transform of the signal in the time domain'''
@@ -171,6 +182,7 @@ def freqPlot(points):
     n = len(points)
     Y = sp.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
+    #Y = Y[:n/2]
     line.set_ydata(abs(Y)) #sets the line to the current data
     ax.draw_artist(ax.patch) #updates the figure
     ax.draw_artist(line) #puts the line on the figure
@@ -189,6 +201,9 @@ def main():
 if __name__ == '__main__':
     fig, ax = plt.subplots() #initialize the figure
     line, = ax.semilogx(np.random.randn(2000)) #initialize the line with the corrent number of points
-    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
+    ax.set_xlim([0,2000])
+    ax.set_ylim([0,50])
     plt.show(block=False) #display our plot
+    plt.clf()
+    #line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
     main()
