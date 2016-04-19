@@ -4,6 +4,9 @@ from ctypes import POINTER, c_ubyte, c_void_p, c_ulong, cast
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
+from PyQt4 import QtCore, QtGui
+import PyQt4.Qwt5 as Qwt
+import math
 
 # From https://github.com/Valodim/python-pulseaudio
 from pulseaudio.lib_pulseaudio import *
@@ -125,6 +128,7 @@ class PeakMonitor(object):
         for i in s:
             if 'analog-stereo' in i and 'alsa_output' in i:
                 self.sink_name = i
+                print(self.sink_name)
 
 
 class analyze():
@@ -153,14 +157,14 @@ class analyze():
         '''Builds a numpyArray of audio peaks in a generator
         calls a plotting function to visualize the data'''
         self._index = range(0,chunkLength)
-        self._array = np.zeros(2000)
+        self._array = np.zeros(4000)
         self._toAdd = []
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
-                timePlot(self._array)
                 self._array = np.delete(self._array, self._index)
                 self._array = np.append(self._array,self._toAdd)
-                #freqPlot(self._array)
+                #timePlot(self._array)
+                freqPlot(self._array)
                 self._toAdd = []
                 self._toAdd.append(sample)
             else:
@@ -178,15 +182,25 @@ def timePlot(points):
 def freqPlot(points):
     '''Plots the audio signal in the frequency domain
     data is from fast fourier transform of the signal in the time domain'''
-    # plt.clf()#used to set axis correctly
+    '''# plt.clf()#used to set axis correctly
     n = len(points)
-    Y = sp.fft(points)/n # fft computing and normalization
+    Y = np.fft.fft(points)/n # fft computing and normalization
     Y = Y[range(n/2)]
     #Y = Y[:n/2]
     line.set_ydata(abs(Y)) #sets the line to the current data
     ax.draw_artist(ax.patch) #updates the figure
     ax.draw_artist(line) #puts the line on the figure
-    fig.canvas.blit() #updates the figure to display the current figure
+    fig.canvas.blit() #updates the figure to display the current figure'''
+    plt.clf()
+    n = len(points) # lungime semnal
+    k = sp.arange(n)
+    T = n/44100.
+    frq = k/T # two sides frequency range
+    frq = frq[range(n/2)]*(2/math.pi) # one side frequency range
+    Y = sp.fft(points)/n # fft computing and normalization
+    Y = Y[range(n/2)]
+    plt.semilogx(frq,abs(Y))
+    plt.draw()
 
 def main_print():
     monitor = PeakMonitor(METER_RATE)
@@ -201,9 +215,9 @@ def main():
 if __name__ == '__main__':
     fig, ax = plt.subplots() #initialize the figure
     line, = ax.semilogx(np.random.randn(2000)) #initialize the line with the corrent number of points
-    ax.set_xlim([0,2000])
-    ax.set_ylim([0,50])
+    ax.set_xlim([0,20000])
+    ax.set_ylim([0,2])
     plt.show(block=False) #display our plot
     plt.clf()
-    #line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
+    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
     main()
