@@ -9,6 +9,7 @@ We can display the time domain signal now. We can display the frequency domain u
 ## Key Questions
 - What can we do to display the full range of frequencies?
 - Is it okay to switch languages?
+
 ## Agenda
 - Present Agenda
 - Present Background
