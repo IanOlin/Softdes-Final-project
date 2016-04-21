@@ -4,8 +4,8 @@ from ctypes import POINTER, c_ubyte, c_void_p, c_ulong, cast
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
-from PyQt4 import QtCore, QtGui
-import PyQt4.Qwt5 as Qwt
+'''from PyQt4 import QtCore, QtGui
+import PyQt4.Qwt5 as Qwt'''
 import math
 
 # From https://github.com/Valodim/python-pulseaudio
@@ -182,25 +182,25 @@ def timePlot(points):
 def freqPlot(points):
     '''Plots the audio signal in the frequency domain
     data is from fast fourier transform of the signal in the time domain'''
-    '''# plt.clf()#used to set axis correctly
+    # plt.clf()#used to set axis correctly
     n = len(points)
-    Y = np.fft.fft(points)/n # fft computing and normalization
-    Y = Y[range(n/2)]
-    #Y = Y[:n/2]
+    Y = np.fft.fft(points, 2000)/n # fft computing and normalization
+    # Y = Y[range(n/2)]
+    Y = Y[:n/2]
     line.set_ydata(abs(Y)) #sets the line to the current data
     ax.draw_artist(ax.patch) #updates the figure
     ax.draw_artist(line) #puts the line on the figure
-    fig.canvas.blit() #updates the figure to display the current figure'''
-    plt.clf()
-    n = len(points) # lungime semnal
-    k = sp.arange(n)
-    T = n/44100
-    frq = k/T # two sides frequency range
-    frq = frq[range(n/2)]*(2/math.pi) # one side frequency range
-    Y = sp.fft(points)/n # fft computing and normalization
-    Y = Y[range(n/2)]
-    plt.semilogx(frq,abs(Y))
-    plt.draw()
+    fig.canvas.blit() #updates the figure to display the current figure
+    # plt.clf()
+    # n = len(points) # lungime semnal
+    # k = sp.arange(n)
+    # T = n/44100.
+    # frq = k/T # two sides frequency range
+    # frq = frq[range(n/2)]*(2/math.pi) # one side frequency range
+    # Y = sp.fft(points)/n # fft computing and normalization
+    # Y = Y[range(n/2)]
+    # plt.semilogx(frq,abs(Y))
+    # plt.draw()
 
 def main_print():
     monitor = PeakMonitor(METER_RATE)
