@@ -194,7 +194,7 @@ def freqPlot(points):
     plt.clf()
     n = len(points) # lungime semnal
     k = sp.arange(n)
-    T = n/44100.
+    T = n/44100
     frq = k/T # two sides frequency range
     frq = frq[range(n/2)]*(2/math.pi) # one side frequency range
     Y = sp.fft(points)/n # fft computing and normalization
