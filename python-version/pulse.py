@@ -157,7 +157,7 @@ class analyze():
         '''Builds a numpyArray of audio peaks in a generator
         calls a plotting function to visualize the data'''
         self._index = range(0,chunkLength)
-        self._array = np.zeros(4000)
+        self._array = np.zeros(2000)
         self._toAdd = []
         for sample in self._monitor:
             if len(self._toAdd) == chunkLength:
@@ -184,24 +184,16 @@ def freqPlot(points):
     data is from fast fourier transform of the signal in the time domain'''
     # plt.clf()#used to set axis correctly
     n = len(points)
-    Y = np.fft.fft(points, 2000)/n # fft computing and normalization
-    # Y = Y[range(n/2)]
+    Y = np.fft.fft(points,2000)/n # and normalization
     Y = Y[:n/2]
-    line.set_ydata(abs(Y)) #sets the line to the current data
+    spectrum = np.fft.fft(points)
+    line.set_ydata(spectrum) #sets the line to the current data
+    frequencies = np.fft.fftfreq(len(spectrum))
+    line.set_xdata(frequencies)
     ax.draw_artist(ax.patch) #updates the figure
     ax.draw_artist(line) #puts the line on the figure
-    fig.canvas.blit() #updates the figure to display the current figure
-    # plt.clf()
-    # n = len(points) # lungime semnal
-    # k = sp.arange(n)
-    # T = n/44100.
-    # frq = k/T # two sides frequency range
-    # frq = frq[range(n/2)]*(2/math.pi) # one side frequency range
-    # Y = sp.fft(points)/n # fft computing and normalization
-    # Y = Y[range(n/2)]
-    # plt.semilogx(frq,abs(Y))
-    # plt.draw()
-
+    fig.canvas.blit() #updates the figure to display the current figure'''
+    	
 def main_print():
     monitor = PeakMonitor(METER_RATE)
     analyzer = analyze(monitor)
@@ -214,10 +206,10 @@ def main():
 
 if __name__ == '__main__':
     fig, ax = plt.subplots() #initialize the figure
-    line, = ax.semilogx(np.random.randn(2000)) #initialize the line with the corrent number of points
+    line, = ax.semilogx(np.linspace(0,1,1000)) #initialize the line with the corrent number of points
     ax.set_xlim([0,20000])
     ax.set_ylim([0,2])
     plt.show(block=False) #display our plot
     plt.clf()
-    line.set_xdata(np.linspace(0,20000,2000)) #set the x axis to match a full range of audio frequency
+    line.set_xdata(np.linspace(0,20000,1000)) #set the x axis to match a full range of audio frequency
     main()
