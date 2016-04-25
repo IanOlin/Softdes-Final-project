@@ -25,6 +25,9 @@
 //include for my own header file
 #include "main.h"
 
+//include fftw to do the fourier transform
+#include <fftw3.h>
+
 //defining variables
 #define BUFFER_SIZE 44100/240 //This smaller buffer works better, effectively 240 updates/s
 #define excess 128
@@ -43,6 +46,7 @@ char redbluegreen[3] = {char(0), char(0), char(0)};
 char leave[3] = {char(0), char(0), char(0)};
 int avg;
 int absolute;
+
 
 //variables for the UDP client
 int sock;
@@ -84,7 +88,7 @@ int main()
     }
 
     // Function calls
-    loop();
+    fourier_loop();
     leaving();
     return 0;
 }
@@ -125,6 +129,30 @@ void loop(){
 
         //for more of a VU, send avg, for more rapid changes, send intermediate
         vu(avg);
+        if(flag){
+            break;
+        }
+    }
+}
+
+void fourier_loop(){
+    while(true){
+        uint8_t buf[BUFFER_SIZE];
+        pa_simple_read(s, buf, sizeof(buf), NULL);
+        int N = sizeof(buf);
+        fftw_complex *in, *out;
+        fftw_plan p;
+
+        in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
+        out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
+        p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+
+        fftw_execute(p); /* repeat as needed */
+
+        fftw_destroy_plan(p);
+        fftw_free(in); fftw_free(out);
+
+
         if(flag){
             break;
         }
