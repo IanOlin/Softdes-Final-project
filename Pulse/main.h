@@ -3,6 +3,7 @@
 
 void stop(int sig);
 void loop();
+void fourier_loop();
 void leaving();
 void vu(int level);
 
