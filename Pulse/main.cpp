@@ -15,6 +15,8 @@
 //include for pulse
 #include <pulse/simple.h>
 
+#include <mgl2/mgl.h>
+
 //includes for socket
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -50,6 +52,7 @@ struct sockaddr_in myaddr;
 
 int main()
 {
+    mglGraph gr;
     // Initializeing variables
     signal(SIGINT, stop);
 
@@ -58,7 +61,7 @@ int main()
     myaddr.sin_family = AF_INET;
     myaddr.sin_port = htons(8000);
     myaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    inet_pton(AF_INET,"0.0.0.0",&myaddr.sin_addr.s_addr);
+    inet_pton(AF_INET,"192.168.34.211",&myaddr.sin_addr.s_addr);
 
     // Setting up Pulse
     ss.format = PA_SAMPLE_U8;
