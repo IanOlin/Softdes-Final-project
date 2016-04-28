@@ -1,16 +1,32 @@
 # Python Spectrogram
 
 ##Description 
-We plan to implement the FFT by hand along with a couple of other music analysis libraries. It currently plots amplitude vs frequency based on system audio output.
+This repository contains two implementations of a spectrum analyzer: one in Python (depricated) and one in C++. The python is limited in its capabilty and the C++ in still in developement.
 
 ##Authors
-Maintained by Ian and Carl
+
 
 Python-pulseaudio comes from https://github.com/valodim/python-pulseaudio
 
 PeakMonitor comes from http://freshfoo.com/blog/pulseaudio_monitoring
 
-##Getting started
+Pulse
+
+FFTW
+
+MathGL
+
+##Getting started - C++
+
+Install Pulse through apt-get
+Install FFTW by downloading and installing
+Install MathGL by installing opengl than mathgl
+
+run ./runsh
+
+run ./main
+
+##Getting started - Python
 Clone this directory
 
 ```

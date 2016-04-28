@@ -3,6 +3,7 @@
 *
 *  TODO:
 *  Have pulse be the main thing in this file, addons like the socket and visualizations should be in classes
+*  Don't hard code drivers
 */
 
 //includes for printing/closing properly
@@ -27,7 +28,7 @@
 #include <fftw3.h>
 
 //defining variables
-#define BUFFER_SIZE 44100/240 //This smaller buffer works better, effectively 240 updates/s
+#define BUFFER_SIZE 44100/60 //This smaller buffer works better, effectively 240 updates/s
 #define excess 128
 
 //setting up global variables
@@ -49,6 +50,7 @@ char leave[3] = {char(0), char(0), char(0)};
 
 int main()
 {
+    mglGraph gr;
     // Initializeing variables
     signal(SIGINT, stop);
 
@@ -139,19 +141,52 @@ void fourier_loop(){
     while(true){
         uint8_t buf[BUFFER_SIZE];
         pa_simple_read(s, buf, sizeof(buf), NULL);
+        int i;
+        double *in;
         int N = sizeof(buf);
-        fftw_complex *in, *out;
-        fftw_plan p;
+        int nc;
+        fftw_complex *out;
+        fftw_plan plan_backward;
+        fftw_plan plan_forward;
+        in = (double *) fftw_malloc( sizeof ( double ) * N );
 
-        in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-        out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-        p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+        for ( i = 0; i < N; i++ )
+        {
+        in[i] = buf[i];
+        }
 
-        fftw_execute(p); /* repeat as needed */
+        printf ( "\n" );
+        printf ( "  Input Data:\n" );
+        printf ( "\n" );
 
-        fftw_destroy_plan(p);
-        fftw_free(in);
-        fftw_free(out);
+        for ( i = 0; i < N; i++ )
+        {
+        printf ( "  %4d  %12f\n", i, in[i] );
+        }
+
+        nc = ( N /2 ) + 1;
+
+        out = (double (*)[2])fftw_malloc(sizeof(fftw_complex ) * nc );
+
+        plan_forward = fftw_plan_dft_r2c_1d ( N, in, out, FFTW_ESTIMATE );
+
+        fftw_execute ( plan_forward );
+
+        printf ( "\n" );
+        printf ( "  Output FFT Coefficients:\n" );
+        printf ( "\n" );
+
+        for ( i = 0; i < nc; i++ )
+        {
+        printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
+        }
+
+        fftw_destroy_plan ( plan_forward );
+        fftw_destroy_plan ( plan_backward );
+
+        fftw_free ( in );
+        fftw_free ( out );
+
 
         if(flag){
             break;
