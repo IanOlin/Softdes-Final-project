@@ -4,6 +4,7 @@
 *  TODO:
 *  Put the socket in a class
 *  Have pulse be the main thing in this file, addons like the socket and visualizations should be in classes
+*  Don't hard code drivers
 */
 
 //includes for printing/closing properly
@@ -145,28 +146,12 @@ void fourier_loop(){
         pa_simple_read(s, buf, sizeof(buf), NULL);
         int i;
         double *in;
-        double *in2;
-        int n = 100;
         int N = sizeof(buf);
         int nc;
         fftw_complex *out;
         fftw_plan plan_backward;
         fftw_plan plan_forward;
-        /*unsigned int seed = 123456789;
-
-        printf ( "\n" );
-        printf ( "TEST02\n" );
-        printf ( "  Demonstrate FFTW3 on a single vector of real data.\n" );
-        printf ( "\n" );
-        printf ( "  Transform data to FFT coefficients.\n" );
-        printf ( "  Backtransform FFT coefficients to recover data.\n" );
-        printf ( "  Compare recovered data to original data.\n" );
-        /*
-        Set up an array to hold the data, and assign the data.
-        */
         in = (double *) fftw_malloc( sizeof ( double ) * N );
-
-        //srand ( seed );
 
         for ( i = 0; i < N; i++ )
         {
@@ -181,11 +166,7 @@ void fourier_loop(){
         {
         printf ( "  %4d  %12f\n", i, in[i] );
         }
-        /*
-        Set up an array to hold the transformed data,
-        get a "plan", and execute the plan to transform the IN data to
-        the OUT FFT coefficients.
-        */
+
         nc = ( N /2 ) + 1;
 
         out = (double (*)[2])fftw_malloc(sizeof(fftw_complex ) * nc );
@@ -202,31 +183,9 @@ void fourier_loop(){
         {
         printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
         }
-        /*
-        Set up an arrray to hold the backtransformed data IN2,
-        get a "plan", and execute the plan to backtransform the OUT
-        FFT coefficients to IN2.
-        */
-        /*
-        in2 = (double *)fftw_malloc ( sizeof ( double ) * n );
 
-        plan_backward = fftw_plan_dft_c2r_1d ( n, out, in2, FFTW_ESTIMATE );
-
-        fftw_execute ( plan_backward );
-
-        printf ( "\n" );
-        printf ( "  Recovered input data divided by N:\n" );
-        printf ( "\n" );
-
-        for ( i = 0; i < n; i++ )
-        {
-        printf ( "  %4d  %12f\n", i, in2[i] / ( double ) ( n ) );
-        } */
-        /*
-        Release the memory associated with the plans.
-        */
-        //fftw_destroy_plan ( plan_forward );
-        //fftw_destroy_plan ( plan_backward );
+        fftw_destroy_plan ( plan_forward );
+        fftw_destroy_plan ( plan_backward );
 
         fftw_free ( in );
         fftw_free ( out );
