@@ -70,8 +70,8 @@ int main()
                     );
 
     // Function calls
-    //fourier_loop();
-    vu_loop();
+    fourier_loop();
+    //vu_loop();
     leaving();
     return 0;
 }
@@ -155,10 +155,6 @@ void fourier_loop(){
         in[i] = buf[i];
         }
 
-        printf ( "\n" );
-        printf ( "  Input Data:\n" );
-        printf ( "\n" );
-
         for ( i = 0; i < N; i++ )
         {
         printf ( "  %4d  %12f\n", i, in[i] );
@@ -180,9 +176,6 @@ void fourier_loop(){
         {
         printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
         }
-
-        fftw_destroy_plan ( plan_forward );
-        fftw_destroy_plan ( plan_backward );
 
         fftw_free ( in );
         fftw_free ( out );
