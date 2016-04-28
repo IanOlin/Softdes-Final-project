@@ -31,7 +31,7 @@
 #include <fftw3.h>
 
 //defining variables
-#define BUFFER_SIZE 44100/240 //This smaller buffer works better, effectively 240 updates/s
+#define BUFFER_SIZE 44100/60 //This smaller buffer works better, effectively 240 updates/s
 #define excess 128
 
 //setting up global variables
@@ -143,18 +143,93 @@ void fourier_loop(){
     while(true){
         uint8_t buf[BUFFER_SIZE];
         pa_simple_read(s, buf, sizeof(buf), NULL);
+        int i;
+        double *in;
+        double *in2;
+        int n = 100;
         int N = sizeof(buf);
-        fftw_complex *in, *out;
-        fftw_plan p;
+        int nc;
+        fftw_complex *out;
+        fftw_plan plan_backward;
+        fftw_plan plan_forward;
+        /*unsigned int seed = 123456789;
 
-        in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-        out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
-        p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
+        printf ( "\n" );
+        printf ( "TEST02\n" );
+        printf ( "  Demonstrate FFTW3 on a single vector of real data.\n" );
+        printf ( "\n" );
+        printf ( "  Transform data to FFT coefficients.\n" );
+        printf ( "  Backtransform FFT coefficients to recover data.\n" );
+        printf ( "  Compare recovered data to original data.\n" );
+        /*
+        Set up an array to hold the data, and assign the data.
+        */
+        in = (double *) fftw_malloc( sizeof ( double ) * N );
 
-        fftw_execute(p); /* repeat as needed */
+        //srand ( seed );
 
-        fftw_destroy_plan(p);
-        fftw_free(in); fftw_free(out);
+        for ( i = 0; i < N; i++ )
+        {
+        in[i] = buf[i];
+        }
+
+        printf ( "\n" );
+        printf ( "  Input Data:\n" );
+        printf ( "\n" );
+
+        for ( i = 0; i < N; i++ )
+        {
+        printf ( "  %4d  %12f\n", i, in[i] );
+        }
+        /*
+        Set up an array to hold the transformed data,
+        get a "plan", and execute the plan to transform the IN data to
+        the OUT FFT coefficients.
+        */
+        nc = ( N /2 ) + 1;
+
+        out = (double (*)[2])fftw_malloc(sizeof(fftw_complex ) * nc );
+
+        plan_forward = fftw_plan_dft_r2c_1d ( N, in, out, FFTW_ESTIMATE );
+
+        fftw_execute ( plan_forward );
+
+        printf ( "\n" );
+        printf ( "  Output FFT Coefficients:\n" );
+        printf ( "\n" );
+
+        for ( i = 0; i < nc; i++ )
+        {
+        printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
+        }
+        /*
+        Set up an arrray to hold the backtransformed data IN2,
+        get a "plan", and execute the plan to backtransform the OUT
+        FFT coefficients to IN2.
+        */
+        /*
+        in2 = (double *)fftw_malloc ( sizeof ( double ) * n );
+
+        plan_backward = fftw_plan_dft_c2r_1d ( n, out, in2, FFTW_ESTIMATE );
+
+        fftw_execute ( plan_backward );
+
+        printf ( "\n" );
+        printf ( "  Recovered input data divided by N:\n" );
+        printf ( "\n" );
+
+        for ( i = 0; i < n; i++ )
+        {
+        printf ( "  %4d  %12f\n", i, in2[i] / ( double ) ( n ) );
+        } */
+        /*
+        Release the memory associated with the plans.
+        */
+        //fftw_destroy_plan ( plan_forward );
+        //fftw_destroy_plan ( plan_backward );
+
+        fftw_free ( in );
+        fftw_free ( out );
 
 
         if(flag){
