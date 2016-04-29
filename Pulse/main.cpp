@@ -18,7 +18,7 @@
 //include for mathgl
 #include <mgl2/mgl.h>
 #include <mgl2/qt.h>
-#include <cmath>
+#include <math.h>
 
 //include for my own header file
 #include "main.h"
@@ -40,7 +40,7 @@ volatile sig_atomic_t flag = 0;
 pa_simple *s;
 pa_sample_spec ss;
 
-char server[] = "0.0.0.0";
+char server[] = "192.168.34.211";
 int port = 8000;
 UdpServer client(server, port);
 
@@ -48,9 +48,10 @@ UdpServer client(server, port);
 char redbluegreen[3] = {char(0), char(0), char(0)};
 char leave[3] = {char(0), char(0), char(0)};
 
-int main()
+int main(int argc, char **argv)
 {
-    mglGraph gr;
+    //mglQT gr(graph);
+
     // Initializeing variables
     signal(SIGINT, stop);
 
@@ -68,7 +69,7 @@ int main()
                     NULL,
                     NULL
                     );
-
+    //gr.Run();
     // Function calls
     fourier_loop();
     //vu_loop();
@@ -119,6 +120,25 @@ void vu_loop(){
     }
 }
 
+int graph(mglGraph *gr){
+    int absolute;
+    while(true){
+        uint8_t buf[BUFFER_SIZE];
+        pa_simple_read(s, buf, sizeof(buf), NULL);
+        for(int i = 0; i < sizeof(buf); i ++){
+            absolute = abs(int(buf[i] - excess));
+            for(int d = 0; d < absolute; d++){
+                printf(">");
+            }
+            printf("\n");
+        }
+        if(flag){
+            break;
+        }
+    }
+    return 0;
+}
+
 void print_loop(){
     int absolute;
     while(true){
@@ -138,50 +158,54 @@ void print_loop(){
 }
 
 void fourier_loop(){
+    uint8_t buf[BUFFER_SIZE];
+    int i;
+    double *in;
+    int N = sizeof(buf);
+    int nc;
+    fftw_complex *out;
+    fftw_plan plan_backward;
+    fftw_plan plan_forward;
+    in = (double *) fftw_malloc(sizeof(double)*N);
+
     while(true){
-        uint8_t buf[BUFFER_SIZE];
         pa_simple_read(s, buf, sizeof(buf), NULL);
-        int i;
-        double *in;
-        int N = sizeof(buf);
-        int nc;
-        fftw_complex *out;
-        fftw_plan plan_backward;
-        fftw_plan plan_forward;
-        in = (double *) fftw_malloc( sizeof ( double ) * N );
 
         for ( i = 0; i < N; i++ )
         {
-        in[i] = buf[i];
+            in[i] = abs(buf[i]- excess);
         }
 
-        for ( i = 0; i < N; i++ )
+        /*for ( i = 0; i < N; i++ )
         {
         printf ( "  %4d  %12f\n", i, in[i] );
-        }
+        }*/
 
-        nc = ( N /2 ) + 1;
+        nc = (N/2)+1;
 
-        out = (double (*)[2])fftw_malloc(sizeof(fftw_complex ) * nc );
+        out = (double (*)[2])fftw_malloc(sizeof(fftw_complex)*nc);
 
-        plan_forward = fftw_plan_dft_r2c_1d ( N, in, out, FFTW_ESTIMATE );
+        plan_forward = fftw_plan_dft_r2c_1d(N, in, out, FFTW_ESTIMATE);
 
-        fftw_execute ( plan_forward );
+        fftw_execute(plan_forward);
 
-        printf ( "\n" );
+        /*printf ( "\n" );
         printf ( "  Output FFT Coefficients:\n" );
         printf ( "\n" );
 
         for ( i = 0; i < nc; i++ )
         {
-        printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
+            printf ( "  %4d  %12f  %12f\n", i, out[i][0], out[i][1] );
+        }*/
+
+        for (i = 0; i<nc; i++)
+        {
+            printf("%12f", fabs(out[i][0]));
+            printf("\n");
         }
-
-        fftw_free ( in );
-        fftw_free ( out );
-
-
         if(flag){
+            fftw_free(in);
+            fftw_free(out);
             break;
         }
     }

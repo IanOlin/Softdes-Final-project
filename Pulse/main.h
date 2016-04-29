@@ -3,6 +3,7 @@
 
 void stop(int sig);
 void leaving();
+int graph(mglGraph *gr);
 void print_loop();
 void vu_loop();
 void fourier_loop();
