@@ -5,6 +5,7 @@ This repository contains two implementations of a spectrum analyzer: one in Pyth
 
 ##Authors
 
+Carl Moser, Ian Paul
 
 Python-pulseaudio comes from https://github.com/valodim/python-pulseaudio
 
@@ -18,9 +19,7 @@ MathGL
 
 ##Getting started - C++
 
-Install Pulse through apt-get
-Install FFTW by downloading and installing
-Install MathGL by installing opengl than mathgl
+sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev 
 
 run ./runsh
 
