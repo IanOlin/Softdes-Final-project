@@ -19,6 +19,8 @@
 #include <mgl2/mgl.h>
 #include <mgl2/qt.h>
 #include <math.h>
+#include <pthread.h>
+#include <plot.h>
 
 //include for my own header file
 #include "main.h"
@@ -28,7 +30,7 @@
 #include <fftw3.h>
 
 //defining variables
-#define BUFFER_SIZE 44100/60 //This smaller buffer works better, effectively 240 updates/s
+#define BUFFER_SIZE 44100/240 //This smaller buffer works better, effectively 240 updates/s
 #define excess 128
 
 //setting up global variables
@@ -48,10 +50,10 @@ UdpServer client(server, port);
 char redbluegreen[3] = {char(0), char(0), char(0)};
 char leave[3] = {char(0), char(0), char(0)};
 
+mglQT *gr=NULL;
+
 int main(int argc, char **argv)
 {
-    //mglQT gr(graph);
-
     // Initializeing variables
     signal(SIGINT, stop);
 
@@ -69,11 +71,19 @@ int main(int argc, char **argv)
                     NULL,
                     NULL
                     );
-    //gr.Run();
+
+
     // Function calls
     fourier_loop();
     //vu_loop();
+    /*static pthread_t thr;
+    pthread_create(&thr,0,graph,0);
+    pthread_detach(thr);
+
+    gr = new mglQT;
+    gr->Run();*/
     leaving();
+    flag = 1;
     return 0;
 }
 
@@ -120,23 +130,23 @@ void vu_loop(){
     }
 }
 
-int graph(mglGraph *gr){
+void *graph(void *){
     int absolute;
+    mglData y(BUFFER_SIZE);
+    gr->Clf();
     while(true){
         uint8_t buf[BUFFER_SIZE];
         pa_simple_read(s, buf, sizeof(buf), NULL);
         for(int i = 0; i < sizeof(buf); i ++){
             absolute = abs(int(buf[i] - excess));
-            for(int d = 0; d < absolute; d++){
-                printf(">");
-            }
-            printf("\n");
+            y[i] = absolute;
         }
+        //gr->Plot(y, "b");
         if(flag){
             break;
         }
     }
-    return 0;
+    exit(0);
 }
 
 void print_loop(){
