@@ -73,8 +73,8 @@
           <div class="col-md-6">
             <h2 class="heading">About</h2>
             <p class="lead">What is our project</p>
-            <p> We worked on building a spectrum analyzer. This is a tool for looking at the signals and examining them. We can see both the time and frequency domain content of system out audio at high enough resolution for humans to discern patterns. One of our main focuses of this product is being able to process the data all in real time, something we are proud to say we have accomplished.  </p>
-            <p>The Fourier Transform works with some math.</p>
+            <p> We worked on building a spectrum analyzer. This is a tool for looking at the signals and examining them. We can see both the time and frequency domain content of system out audio at high enough resolution for humans to discern patterns. One of our main focuses of this product is being able to process the data all in real time, something we are proud to say we have accomplished. Gathering data a sufficiently high rate as well as doing the processing is decently computationally intensive. Because of this, we transitioned away from using Python into using C++. Our Python implementation works; however, it lack high enough resolution to satisfy our standards and has been depricated. Our C++ implementation reaches 14000 Hz before it fails which is comparable ro or better than similar industry tools (ignoring those which preload audio).</p>
+            <p> The current version of our product is a complete one, but we intent to continue developing it. As of 2016-05-05, the final submission date of the project, we have implemented plotting our data in the time and frequency domains, which sufficiently captures the intent of our project. Things that we are working on implementing in the future include: a UDP server to control adressable LED strips, different visuals for a FFT, and a GUI control panel to choose what is displayed.</p>
           </div>
           <div class="col-md-5 col-md-offset-1">
             <p><img src="img/sFFT5.png" alt="" class="img-responsive"></p>
@@ -130,40 +130,40 @@
             <div class="row">
               <div class="col-md-12 col-lg-8">
                 <h2 class="heading">Images</h2>
-                <p>Here are some images of a signal in the time and frequency domains. Also probably a Video</p>
+                <p>Here are some images of a signal in the time and frequency domains, as well as various pictoral depictions of a fourier transform/ FFT./p>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-1.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 1" data-footer="Some footer information"><img src="img/portfolio-1.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-1.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 1" data-footer="Some footer information"><img src="img/fqscreen.png" alt="" class="img-responsive"></a></div>
               </div>
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-2.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 2" data-footer="Some footer information"><img src="img/portfolio-2.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-2.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 2" data-footer="Some footer information"><img src="img/timescreen.png" alt="" class="img-responsive"></a></div>
               </div>
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-3.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 3" data-footer="Some footer information"><img src="img/portfolio-3.jpg" alt="" class="img-responsive"></a></div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-4.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 4" data-footer="Some footer information"><img src="img/portfolio-4.jpg" alt="" class="img-responsive"></a></div>
-              </div>
-              <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-5.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 5" data-footer="Some footer information"><img src="img/portfolio-5.jpg" alt="" class="img-responsive"></a></div>
-              </div>
-              <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-6.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 6" data-footer="Some footer information"><img src="img/portfolio-6.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-3.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 3" data-footer="Some footer information"><img src="img/EngMath_Fourier01.PNG" alt="" class="img-responsive"></a></div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-7.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 7" data-footer="Some footer information"><img src="img/portfolio-7.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-4.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 4" data-footer="Some footer information"><img src="img/fft_ex1.jpg" alt="" class="img-responsive"></a></div>
+              </div>
+              <div class="col-sm-4">
+                <div class="box"><a href="img/portfolio-5.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 5" data-footer="Some footer information"><img src="img/fftexample.png" alt="" class="img-responsive"></a></div>
+              </div>
+              <div class="col-sm-4">
+                <div class="box"><a href="img/portfolio-6.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 6" data-footer="Some footer information"><img src="img/fourier-2res.png" alt="" class="img-responsive"></a></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="box"><a href="img/portfolio-7.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 7" data-footer="Some footer information"><img src="img/Fourier_unit_pulse.svg.png" alt="" class="img-responsive"></a></div>
               </div></a>
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-8.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 8" data-footer="Some footer information"><img src="img/portfolio-8.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-8.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 8" data-footer="Some footer information"><img src="img/ft.gif" alt="" class="img-responsive"></a></div>
               </div></a>
               <div class="col-sm-4">
-                <div class="box"><a href="img/portfolio-9.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 9" data-footer="Some footer information"><img src="img/portfolio-9.jpg" alt="" class="img-responsive"></a></div>
+                <div class="box"><a href="img/portfolio-9.jpg" title="" data-toggle="lightbox" data-gallery="portfolio" data-title="Portfolio image 9" data-footer="Some footer information"><img src="img/Y5EAf.png" alt="" class="img-responsive"></a></div>
               </div></a>
             </div>
           </div>
@@ -181,12 +181,12 @@
               <div class="col-sm-6">
               	<h4 class="heading">Installing</h2>
               	<p>First, clone the repository, found at 'https://github.com/IanOlin/Softdes-Final-project'. Next install all the requisite developement repositories so you can build the code yourself. (This works for Ubuntu 15.10) </p>
-                <p>sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev</p>
-                <p>After getting the dependencies installed, run our run function (./run.sh) to compile. Then you cazn run main (./main) to run the program.</p>
+                <p>sudo apt-get install libpulse-dev libfftw3-dev qt4-dev-tools</p>
+                <p>After getting the dependencies installed, run our run function (./run.sh) to compile. Then you cazn run main (./spectrogram) to run the program.</p>
               </div>
               <div class="col-sm-6">
               	<h4 class="heading">Explanation</h2>
-                <p>Effects present letters inquiry no an removed or friends. Desire behind latter me though in. Supposing shameless am he engrossed up additions. My possible peculiar together to. Desire so better am cannot he up before points. Remember mistaken opinions it pleasure of debating. Court front maids forty if aware their at. Chicken use are pressed removed. </p>
+                <p>One thing that we are proud of with this project is the toolings we chose. FFTW is a more complicated FFT pakage, but we decided to use it, as well as the appropriate(but more difficult) methods it offers. Similarly, QT is a massive tool that is the industry standard for GUI creation and some analytics. </p>
                 <p>Saw yet kindness too replying whatever marianne. Old sentiments resolution admiration unaffected its mrs literature. Behaviour new set existence dashwoods. It satisfied to mr commanded consisted disposing engrossed. Tall snug do of till on easy. Form not calm new fail. </p>
               </div>
             </div>
