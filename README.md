@@ -13,15 +13,16 @@ PeakMonitor comes from http://freshfoo.com/blog/pulseaudio_monitoring
 
 Pulse
 
-FFTW
+FFTW3
 
-MathGL
+Qt4 with QCustomPlotting
+QCustomPlotting comes from http://www.qcustomplot.com/index.php/introduction
 
 ##Getting started - C++
 
-sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev 
+sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev qt4-dev-tools
 
-run ./runsh
+run ./run.sh
 
 run ./main
 
