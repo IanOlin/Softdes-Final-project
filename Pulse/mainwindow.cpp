@@ -1,12 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qcustomplot.h"
-#include <iostream>
 #include <QVector>
 #include <stdio.h>
 #include <fftw3.h>
 #include <pulse/simple.h>
-#include <boost/iterator/counting_iterator.hpp>
 #define BUFFER_SIZE 44100/60
 
 MainWindow::MainWindow(QWidget *parent) :
