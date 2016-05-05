@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Black And White Bootstrap Landing Page / Portfolio</title>
+    <title>Spectrum Analyzer</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -27,7 +27,8 @@
   </head>
   <body data-spy="scroll" data-target="#navigation" data-offset="120">
     <!-- intro-->
-    <section id="intro" style="background-image: url('img/ein-steig.jpg');" class="intro">      
+    <section id="intro" style="background-image: url('img/ComputerRoom.jpeg');" class="intro">      
+    <!-- was Eig-Stein -->
       <div class="overlay"></div>
       <div class="content">
         <div class="container clearfix">
@@ -35,7 +36,7 @@
             <div class="col-md-8 col-md-offset-2 col-sm-12">
               <p class="italic">Presented by Ian Paul and Carl Moser</p>
               <h1>Spectrum Analyzer</h1>
-              <p class="italic">Olin College of Engineering Software Design Final Project Spring 2015</p>
+              <p class="italic">Olin College of Engineering Software Design Final Project Spring 2016</p>
             </div>
           </div>
         </div>
@@ -55,9 +56,9 @@
                 <li class="active"><a href="#intro">Home</a></li>
                 <li><a href="#about">About </a></li>
                 <li><a href="#services">Pakages Used</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#text">Text</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#portfolio">Images</a></li>
+                <li><a href="#text">Install</a></li>
+                <!-- <li><a href="#contact">Contact</a></li> -->
               </ul>
             </div>
           </div>
@@ -72,11 +73,12 @@
           <div class="col-md-6">
             <h2 class="heading">About</h2>
             <p class="lead">What is our project</p>
-            <p> WE HAVE A SPECTRUM ANALYZER. FILLER TEXT FOLLOWS.Impossible considered invitation him men instrument saw celebrated unpleasant. Put rest and must set kind next many near nay. He exquisite continued explained middleton am. Voice hours young woody has she think equal. Estate moment he at on wonder at season little. Six garden result summer set family esteem nay estate. End admiration mrs unreserved discovered comparison especially invitation. </p>
-            <p>IT ANALYZERS A SPECTRUM. MORE FILLER TEXT STILL FOLLOWS.Delightful unreserved impossible few estimating men favourable see entreaties. She propriety immediate was improving. He or entrance humoured likewise moderate. Much nor game son say feel. Fat make met can must form into gate. Me we offending prevailed discovery. </p>
+            <p> We worked on building a spectrum analyzer. This is a tool for looking at the signals and examining them. We can see both the time and frequency domain content of system out audio at high enough resolution for humans to discern patterns. One of our main focuses of this product is being able to process the data all in real time, something we are proud to say we have accomplished.  </p>
+            <p>The Fourier Transform works with some math.</p>
           </div>
           <div class="col-md-5 col-md-offset-1">
-            <p><img src="img/japan-mountains.jpg" alt="" class="img-responsive img-circle"></p>
+            <p><img src="img/sFFT5.png" alt="" class="img-responsive"></p>
+            <!--was japan-mountains.jpg class = " ... img-circle-->
           </div>
         </div>
       </div>
@@ -91,21 +93,24 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="box">
-                  <div class="icon"><i class="fa fa-desktop"></i></div>
+                  <!--<div class="icon"><i class="fa fa-desktop"></i></div>-->
+                  <p><img src="img/FFTW.png" alt="" class="img-responsive"></p>
                   <h4>FFTW</h4>
                   <p>Package used for fast fourier transforming our signal</p>
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="box">
-                  <div class="icon"><i class="fa fa-print"></i></div>
+                  <!-- <div class="icon"><i class="fa fa-print"></i></div> -->
+                  <p><img src="img/PulseAudio-logo.png" alt="" class="img-responsive"></p>
                   <h4>Pulse</h4>
                   <p>Gathering realtime audio out from the computer</p>
                 </div>
               </div>
               <div class="col-sm-4">
                 <div class="box">
-                  <div class="icon"><i class="fa fa-globe"></i></div>
+                  <!-- <div class="icon"><i class="fa fa-globe"></i></div> -->
+                  <p><img src="img/QT.png" alt="" class="img-responsive"></p>
                   <h4>QT</h4>
                   <p>Real-time visualizations of data</p>
                 </div>
@@ -124,8 +129,8 @@
           <div class="col-md-12">
             <div class="row">
               <div class="col-md-12 col-lg-8">
-                <h2 class="heading">Portfolio</h2>
-                <p>Put your portfolio or gallery images here for example. Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh. </p>
+                <h2 class="heading">Images</h2>
+                <p>Here are some images of a signal in the time and frequency domains. Also probably a Video</p>
               </div>
             </div>
             <div class="row">
@@ -171,13 +176,16 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h2 class="heading">Text page</h2>
+            <h2 class="heading">Installation and Explanation</h2>
             <div class="row">
               <div class="col-sm-6">
-                <p>Able an hope of body. Any nay shyness article matters own removal nothing his forming. Gay own additions education satisfied the perpetual. If he cause manor happy. Without farther she exposed saw man led. Along on happy could cease green oh. </p>
-                <p>Betrayed cheerful declared end and. Questions we additions is extremely incommode. Next half add call them eat face. Age lived smile six defer bed their few. Had admitting concluded too behaviour him she. Of death to or to being other. </p>
+              	<h4 class="heading">Installing</h2>
+              	<p>First, clone the repository, found at 'https://github.com/IanOlin/Softdes-Final-project'. Next install all the requisite developement repositories so you can build the code yourself. (This works for Ubuntu 15.10) </p>
+                <p>sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev</p>
+                <p>After getting the dependencies installed, run our run function (./run.sh) to compile. Then you cazn run main (./main) to run the program.</p>
               </div>
               <div class="col-sm-6">
+              	<h4 class="heading">Explanation</h2>
                 <p>Effects present letters inquiry no an removed or friends. Desire behind latter me though in. Supposing shameless am he engrossed up additions. My possible peculiar together to. Desire so better am cannot he up before points. Remember mistaken opinions it pleasure of debating. Court front maids forty if aware their at. Chicken use are pressed removed. </p>
                 <p>Saw yet kindness too replying whatever marianne. Old sentiments resolution admiration unaffected its mrs literature. Behaviour new set existence dashwoods. It satisfied to mr commanded consisted disposing engrossed. Tall snug do of till on easy. Form not calm new fail. </p>
               </div>
@@ -185,10 +193,24 @@
           </div>
         </div>
       </div>
+    <footer style="background-color: #111;" class="section-inverse">
+      <div class="container"> 
+        <div class="row copyright">
+          <div class="col-md-6">
+            <p>&copy;2016 Carl and Ian</p>
+          </div>
+          <div class="col-md-6">
+            <p class="credit">Template by <a href="http://bootstrapious.com/landing-pages">Bootstrapious &mdash; Bootstrap Landing Pages</a></p>
+            <!-- Please do not remove the backlink to us. It is part of the licence conditions. Thanks for understanding :)
+            -->
+          </div>
+        </div>
+      </div>
+    </footer>
     </section>
     <!-- text page end-->
     <!-- contact-->
-    <section id="contact" style="background-color: #fff;" class="text-page"> 
+    <!-- <section id="contact" style="background-color: #fff;" class="text-page"> 
       <div class="container">
         <div class="row">
           <div class="col-md-12">
@@ -234,22 +256,9 @@
           </div>
         </div>
       </div>
-    </section>
-    <div id="map"></div>
-    <footer style="background-color: #111;" class="section-inverse">
-      <div class="container"> 
-        <div class="row copyright">
-          <div class="col-md-6">
-            <p>&copy;2015 Your name/company goes here</p>
-          </div>
-          <div class="col-md-6">
-            <p class="credit">Template by <a href="http://bootstrapious.com/landing-pages">Bootstrapious &mdash; Bootstrap Landing Pages</a></p>
-            <!-- Please do not remove the backlink to us. It is part of the licence conditions. Thanks for understanding :)
-            -->
-          </div>
-        </div>
-      </div>
-    </footer>
+    </section> -->
+    <!-- <div id="map"></div> -->
+
     <!-- Javascript files-->
     <!-- jQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -264,8 +273,8 @@
     <script src="js/jquery.sticky.js"></script>
     <script src="js/jquery.scrollTo.min.js"></script>
     <!-- google maps-->
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;amp;sensor=false"></script>
-    <script src="js/gmaps.js"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;amp;sensor=false"></script> -->
+    <!-- <script src="js/gmaps.js"></script> -->
     <!-- main script-->
     <script src="js/front.js"></script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
