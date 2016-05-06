@@ -15,17 +15,16 @@ Pulse
 
 FFTW3
 
-Qt4 with QCustomPlotting
+Qt4 with QCustomPlotting,
 QCustomPlotting comes from http://www.qcustomplot.com/index.php/introduction
 
 ##Getting started - C++
 
 sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev qt4-dev-tools
-
-run ./run.sh
-
-run ./main
-
+```
+$./run.sh
+$./Spectrogram
+```
 ##Getting started - Python
 Clone this directory
 
