@@ -22,8 +22,9 @@ QCustomPlotting comes from http://www.qcustomplot.com/index.php/introduction
 
 sudo apt-get install libpulse-dev libmgl-dev libfftw3-dev qt4-dev-tools
 ```
-$./run.sh
-$./Spectrogram
+$ chmod +x run.sh
+$ ./run.sh
+$ ./Spectrogram
 ```
 ##Getting started - Python
 Clone this directory
